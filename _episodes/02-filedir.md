@@ -68,11 +68,9 @@ which is Nelle's **home directory**:
 > In future examples, we've used Mac output as the default - Linux and Windows
 > output may differ slightly but should be generally similar.
 >
-> We will also assume that your `pwd` command returns your user's home directory.
-> If `pwd` returns something different, you may need to navigate there using `cd`
-> or some commands in this lesson will not work as written.
-> See [Exploring Other Directories](#exploring-other-directories) for more details
-> on the `cd` command.
+> When running in Docker from VSCode, your directory will probably be `/workspaces`.
+> This is a special directory set up to build and run your code from as there are
+> no user directories by default.
 {: .callout}
 
 To understand what a 'home directory' is,
@@ -129,7 +127,7 @@ Typically, when you open a new command prompt, you will be in
 your home directory to start.
 
 Now let's learn the command that will let us see the contents of our
-own filesystem.  We can see what's in our home directory by running `ls`:
+own filesystem.  We can see what's in our current directory by running `ls`:
 
 ~~~
 $ ls
@@ -142,8 +140,11 @@ Desktop      Downloads    Movies       Pictures
 ~~~
 {: .output}
 
-(Again, your results may be slightly different depending on your operating
-system and how you have customized your filesystem.)
+Again, the above is an example. You will see something more like:
+~~~
+shell-lesson-data  shell-lesson-data.zip  test-setup
+~~~
+{: .output}
 
 `ls` prints the names of the files and directories in the current directory.
 We can make its output more comprehensible by using the `-F` **option**
@@ -334,32 +335,24 @@ To **quit** the `man` pages, press <kbd>Q</kbd>.
 
 Not only can we use `ls` on the current working directory, 
 but we can use it to list the contents of a different directory.
-Let's take a look at our `Desktop` directory by running `ls -F Desktop`,
+Let's take a look at our `shell-lesson-data` directory by running `ls -F shell-lesson-data`,
 i.e.,
-the command `ls` with the `-F` **option** and the [**argument**][Arguments]  `Desktop`.
-The argument `Desktop` tells `ls` that
+the command `ls` with the `-F` **option** and the [**argument**][Arguments]  `shell-lesson-data`.
+The argument `shell-lesson-data` tells `ls` that
 we want a listing of something other than our current working directory:
 
 ~~~
-$ ls -F Desktop
+$ ls -F shell-lesson-data
 ~~~
 {: .language-bash}
 
 ~~~
-shell-lesson-data/
+creatures/  data/  molecules/  north-pacific-gyre/  notes.txt  numbers.txt  pizza.cfg  solar.pdf  writing/
 ~~~
 {: .output}
 
-Note that if a directory named `Desktop` does not exist in your current working directory,
-this command will return an error. Typically, a `Desktop` directory exists in your
-home directory, which we assume is the current working directory of your bash shell.
-
-Your output should be a list of all the files and sub-directories in your
-Desktop directory, including the `shell-lesson-data` directory you downloaded at
-the [setup for this lesson]({{ page.root }}{% link setup.md %}).
-On many systems,
-the command line Desktop directory is the same as your GUI Desktop.
-Take a look at your Desktop to confirm that your output is accurate.
+Note that if a directory named `shell-lesson-data` does not exist in your current working directory,
+this command will return an error. 
 
 As you may now see, using a bash shell is strongly dependent on the idea that
 your files are organized in a hierarchical file system.
@@ -368,24 +361,7 @@ it's possible to put hundreds of files in our home directory,
 just as it's possible to pile hundreds of printed papers on our desk,
 but it's a self-defeating strategy.
 
-Now that we know the `shell-lesson-data` directory is located in our Desktop directory, we
-can do two things.
-
-First, we can look at its contents, using the same strategy as before, passing
-a directory name to `ls`:
-
-~~~
-$ ls -F Desktop/shell-lesson-data
-~~~
-{: .language-bash}
-
-~~~
-creatures/          molecules/          notes.txt           solar.pdf
-data/               north-pacific-gyre/ pizza.cfg           writing/
-~~~
-{: .output}
-
-Second, we can actually change our location to a different directory, so
+Now we've looked into the `shell-lesson-data`, we  can actually change our location to it so
 we are no longer located in
 our home directory.
 
@@ -401,20 +377,19 @@ Let's say we want to move to the `data` directory we saw above. We can
 use the following series of commands to get there:
 
 ~~~
-$ cd Desktop
 $ cd shell-lesson-data
 $ cd data
 ~~~
 {: .language-bash}
 
-These commands will move us from our home directory into our Desktop directory, then into
+These commands will move us from our home directory into
 the `shell-lesson-data` directory, then into the `data` directory. 
 You will notice that `cd` doesn't print anything. This is normal. 
 Many shell commands will not output anything to the screen when successfully executed. 
 But if we run `pwd` after it, we can see that we are now
-in `/Users/nelle/Desktop/shell-lesson-data/data`.
+in `/workspaces/shell-lesson-data/data`.
 If we run `ls -F` without arguments now,
-it lists the contents of `/Users/nelle/Desktop/shell-lesson-data/data`,
+it lists the contents of `/workspaces/shell-lesson-data/data`,
 because that's where we now are:
 
 ~~~
@@ -423,7 +398,7 @@ $ pwd
 {: .language-bash}
 
 ~~~
-/Users/nelle/Desktop/shell-lesson-data/data
+/workspaces/shell-lesson-data/data
 ~~~
 {: .output}
 
@@ -472,7 +447,7 @@ $ cd ..
 or more succinctly,
 the **parent** of the current directory.
 Sure enough,
-if we run `pwd` after running `cd ..`, we're back in `/Users/nelle/Desktop/shell-lesson-data`:
+if we run `pwd` after running `cd ..`, we're back in `/workspaces/shell-lesson-data`:
 
 ~~~
 $ pwd
@@ -480,7 +455,7 @@ $ pwd
 {: .language-bash}
 
 ~~~
-/Users/nelle/Desktop/shell-lesson-data
+/workspaces/shell-lesson-data
 ~~~
 {: .output}
 
@@ -540,19 +515,20 @@ $ pwd
 {: .language-bash}
 
 ~~~
-/Users/nelle
+/root
 ~~~
 {: .output}
 
 It turns out that `cd` without an argument will return you to your home directory,
-which is great if you've gotten lost in your own filesystem.
+which is great if you've gotten lost in your own filesystem. In our case, as we don't have
+a proper home directory, we're in the `/root` directory.
 
 Let's try returning to the `data` directory from before. Last time, we used
 three commands, but we can actually string together the list of directories
 to move to `data` in one step:
 
 ~~~
-$ cd Desktop/shell-lesson-data/data
+$ cd /workspaces/shell-lesson-data/data
 ~~~
 {: .language-bash}
 
@@ -584,12 +560,12 @@ $ pwd
 {: .language-bash}
 
 ~~~
-/Users/nelle/Desktop/shell-lesson-data/data
+/workspaces/shell-lesson-data/data
 ~~~
 {: .output}
 
 ~~~
-$ cd /Users/nelle/Desktop/shell-lesson-data
+$ cd /workspaces/shell-lesson-data
 ~~~
 {: .language-bash}
 
@@ -614,9 +590,9 @@ Run `pwd` and `ls -F` to ensure that we're in the directory we expect.
 >
 > ----
 > Try it!
-> First navigate to `~/Desktop/shell-lesson-data` (you should already be there).
+> First navigate to `/workspaces/shell-lesson-data` (you should already be there).
 > ~~~
-> $ cd ~/Desktop/shell-lesson-data
+> $ cd /workspaces/shell-lesson-data
 > ~~~
 > {: .language-bash}
 >
@@ -631,8 +607,8 @@ Run `pwd` and `ls -F` to ensure that we're in the directory we expect.
 > $ cd -
 > ~~~
 > {: .language-bash}
-> you'll see you're back in `~/Desktop/shell-lesson-data`.
-> Run `cd -` again and you're back in `~/Desktop/shell-lesson-data/creatures`
+> you'll see you're back in `/workspaces/shell-lesson-data`.
+> Run `cd -` again and you're back in `/workspaces/shell-lesson-data/creatures`
 {: .callout}
 
 > ## Absolute vs Relative Paths
