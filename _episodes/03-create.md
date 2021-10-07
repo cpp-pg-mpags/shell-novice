@@ -26,7 +26,7 @@ We now know how to explore files and directories,
 but how do we create them in the first place?
 
 ### Step one: see where we are and what we already have
-Let's go back to our `shell-lesson-data` directory on the Desktop
+Let's go back to our `shell-lesson-data` directory
 and use `ls -F` to see what it contains:
 
 ~~~
@@ -35,7 +35,7 @@ $ pwd
 {: .language-bash}
 
 ~~~
-/Users/nelle/Desktop/shell-lesson-data
+/workspaces/shell-lesson-data
 ~~~
 {: .output}
 
@@ -294,7 +294,7 @@ draft.txt
 Returning to the `shell-lesson-data` directory,
 
 ```
-cd ~/Desktop/shell-lesson-data/
+cd /workspaces/shell-lesson-data/
 ```
 {: .language-bash}
 
